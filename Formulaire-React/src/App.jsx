@@ -28,6 +28,7 @@ const RegistrationForm = () => {
       <Form.Group className="mb-3" controlId="name">
         <Form.Label>Nom</Form.Label>
         <Form.Control
+          type="text"
           name="name"
           value={formData.name}
           onChange={handleChange}
