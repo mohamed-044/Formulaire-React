@@ -33,6 +33,7 @@ const RegistrationForm = () => {
           value={formData.name}
           onChange={handleChange}
           placeholder="Entrez votre nom"
+          required
         />
       </Form.Group>
 
@@ -44,6 +45,7 @@ const RegistrationForm = () => {
           value={formData.date}
           onChange={handleChange}
           placeholder="Entrez votre date"
+          required
         />
       </Form.Group>
       <Form.Group className="mb-3" controlId="select">
