@@ -28,7 +28,6 @@ const RegistrationForm = () => {
       <Form.Group className="mb-3" controlId="name">
         <Form.Label>Nom</Form.Label>
         <Form.Control
-          type="name"
           name="name"
           value={formData.name}
           onChange={handleChange}
@@ -48,21 +47,20 @@ const RegistrationForm = () => {
       </Form.Group>
       <Form.Group className="mb-3" controlId="select">
         <Form.Select
-          id="Select"
           name="select"
           value={formData.select}
           onChange={handleChange}
         >
-          <option>Basse</option>
-          <option>Moyenne</option>
-          <option>Haute</option>
+          <option value="Basse" >Basse</option>
+          <option value="Moyenne">Moyenne</option>
+          <option value="Haute">Haute</option>
         </Form.Select>
       </Form.Group>
       <Form.Group className="mb-3" controlId="isCompleted">
         <Form.Check
           type="checkbox"
           name="isCompleted"
-          value={formData.isCompleted}
+          checked={formData.isCompleted}
           onChange={handleChange}
           label="Complété"
         />
