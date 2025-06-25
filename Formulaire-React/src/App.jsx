@@ -21,13 +21,12 @@ const schema = yup.object().shape({
     .test("antérieure", "Date antérieure", (val) => {
       if (!val) return false;
       const [j, m, a] = val.split("/").map(Number);
-      const inputDate = a * 10000 + m * 100 + j;
-
-      const now = new Date();
-      const todayDate = now.getFullYear() * 10000 + (now.getMonth() + 1) * 100 + now.getDate();
-
-      return inputDate >= todayDate;
+      const inputDate = new Date(a, m - 1, j);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      return inputDate >= today;
     }),
+
   select: yup.string().oneOf(["Basse", "Moyenne", "Elevée"], "Valeur invalide"),
   isCompleted: yup.boolean(),
 });
@@ -59,7 +58,7 @@ const App = () => {
         <Form.Control
           type="text"
           placeholder="Entrez le nom"
-          {...register("name",)}
+          {...register("name")}
         />
         {errors.name && <p>{errors.name.message}</p>}
       </Form.Group>
@@ -69,7 +68,7 @@ const App = () => {
         <Form.Control
           type="text"
           placeholder="jj/mm/aaaa"
-          {...register("date",)}
+          {...register("date")}
         />
         {errors.date && <p>{errors.date.message}</p>}
       </Form.Group>
