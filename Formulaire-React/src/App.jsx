@@ -21,15 +21,14 @@ const schema = yup.object().shape({
     .test("antérieure", "Date antérieure", (val) => {
       if (!val) return false;
       const [j, m, a] = val.split("/").map(Number);
-      const today = new Date();
-      const jj = today.getDate();
-      const mm = today.getMonth() + 1;
-      const aa = today.getFullYear();
-      return (
-        a > aa || (a === aa && m > mm) || (a === aa && m === mm && j >= jj)
-      );
+      const inputDate = a * 10000 + m * 100 + j;
+
+      const now = new Date();
+      const todayDate = now.getFullYear() * 10000 + (now.getMonth() + 1) * 100 + now.getDate();
+
+      return inputDate >= todayDate;
     }),
-  select: yup.string().matches("Basse", "Moyenne", "Elevée"),
+  select: yup.string().oneOf(["Basse", "Moyenne", "Elevée"], "Valeur invalide"),
   isCompleted: yup.boolean(),
 });
 
@@ -60,7 +59,7 @@ const App = () => {
         <Form.Control
           type="text"
           placeholder="Entrez le nom"
-          {...register("name", { required: "Le nom est requis" })}
+          {...register("name",)}
         />
         {errors.name && <p>{errors.name.message}</p>}
       </Form.Group>
@@ -70,7 +69,7 @@ const App = () => {
         <Form.Control
           type="text"
           placeholder="jj/mm/aaaa"
-          {...register("date", { required: "La date est requise" })}
+          {...register("date",)}
         />
         {errors.date && <p>{errors.date.message}</p>}
       </Form.Group>
