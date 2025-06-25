@@ -1,60 +1,49 @@
-import { useState } from "react";
 import "./App.css";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
+import { useForm } from "react-hook-form";
 
-const RegistrationForm = () => {
-  const [formData, setFormData] = useState({
-    name: "",
-    date: "",
-    select: "Basse",
-    isCompleted: false,
+const App = () => {
+  const {
+    register,
+    handleSubmit,
+    watch,
+    reset,
+    formState: { errors }
+  } = useForm({
+    mode: "onSubmit",
   });
 
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: type === "checkbox" ? checked : value,
-    }));
-  };
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(formData);
+  const onSubmit = (data) => {
+    console.log(data);
+    reset();
   };
 
+  const nameValue = watch("name");
+
   return (
-    <Form onSubmit={handleSubmit}>
+    <Form onSubmit={handleSubmit(onSubmit)}>
       <Form.Group className="mb-3" controlId="name">
         <Form.Label>Nom</Form.Label>
         <Form.Control
           type="text"
-          name="name"
-          value={formData.name}
-          onChange={handleChange}
           placeholder="Entrez votre nom"
-          required
+          {...register("name", { required: "Le nom est requis" })}
         />
+        {errors.name && <p>{errors.name.message}</p>}
       </Form.Group>
 
       <Form.Group className="mb-3" controlId="date">
         <Form.Label>Date</Form.Label>
         <Form.Control
           type="date"
-          name="date"
-          value={formData.date}
-          onChange={handleChange}
-          placeholder="Entrez votre date"
-          required
+          {...register("date", { required: "La date est requise" })}
         />
+        {errors.date && <p>{errors.date.message}</p>}
       </Form.Group>
       <Form.Group className="mb-3" controlId="select">
-        <Form.Select
-          name="select"
-          value={formData.select}
-          onChange={handleChange}
-        >
-          <option value="Basse" >Basse</option>
+        <Form.Select name="select" {...register("select")}>
+          <option value="Basse">Basse</option>
           <option value="Moyenne">Moyenne</option>
           <option value="Haute">Haute</option>
         </Form.Select>
@@ -62,12 +51,11 @@ const RegistrationForm = () => {
       <Form.Group className="mb-3" controlId="isCompleted">
         <Form.Check
           type="checkbox"
-          name="isCompleted"
-          checked={formData.isCompleted}
-          onChange={handleChange}
+          {...register("isCompleted")}
           label="Complété"
         />
       </Form.Group>
+      <p>Nom actuel : {nameValue || ""}</p>
       <Button variant="primary" type="submit">
         Envoyer
       </Button>
@@ -75,4 +63,4 @@ const RegistrationForm = () => {
   );
 };
 
-export default RegistrationForm;
+export default App;
