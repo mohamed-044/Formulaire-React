@@ -7,19 +7,20 @@ const App = () => {
   const {
     register,
     handleSubmit,
-    watch,
     reset,
     formState: { errors }
   } = useForm({
     mode: "onSubmit",
+    defaultValues: {
+      select: "Basse",
+      isCompleted: false,
+    },
   });
 
   const onSubmit = (data) => {
     console.log(data);
     reset();
   };
-
-  const nameValue = watch("name");
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
@@ -55,7 +56,6 @@ const App = () => {
           label="Complété"
         />
       </Form.Group>
-      <p>Nom actuel : {nameValue || ""}</p>
       <Button variant="primary" type="submit">
         Envoyer
       </Button>
